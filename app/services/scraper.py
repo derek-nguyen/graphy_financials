@@ -1,3 +1,7 @@
+"""
+USE THIS FILE TO STORE ALL WEB CRAWLER FUNCTIONS
+"""
+
 import requests
 import pandas
 from zipfile import ZipFile
@@ -8,4 +12,4 @@ req = requests.get(url)
 
 filename = url.split('/')[-1]
 
-
+print(filename)
