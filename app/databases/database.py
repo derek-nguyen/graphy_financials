@@ -14,11 +14,11 @@ def createTables():
     cursor.execute(
         """
         CREATE TABLE disclosures (
-            accession_number VARCHAR(255) NOT NULL PRIMARY KEY,
+            accession_number VARCHAR(255) PRIMARY KEY,
             compensation_amount_description TEXT,
-            financial_interest VARCHAR(255),
+            financial_interest TEXT,
             security_offered_type VARCHAR(255),
-            security_offered_other_desec VARCHAR(255),
+            security_offered_other_desc text,
             no_of_security_offered FLOAT8,
             price FLOAT8,
             price_determination_method TEXT,
@@ -50,7 +50,7 @@ def createTables():
         );
         
         CREATE TABLE coissuer_info (
-            accession_number VARCHAR(255) NOT NULL PRIMARY KEY,
+            accession_number VARCHAR(255) PRIMARY KEY,
             id int,
             is_edgar_filer VARCHAR(255),
             co_issuer_cik VARCHAR(255),
