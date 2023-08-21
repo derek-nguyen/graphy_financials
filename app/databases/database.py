@@ -14,13 +14,13 @@ def createTables():
     cursor.execute(
         """
         CREATE TABLE disclosures (
-            accession_number VARCHAR(255) PRIMARY KEY,
+            accession_number VARCHAR(255),
             compensation_amount_description TEXT,
             financial_interest TEXT,
             security_offered_type VARCHAR(255),
             security_offered_other_desc text,
-            no_of_security_offered FLOAT8,
-            price FLOAT8,
+            no_of_security_offered float,
+            price numeric(10,2),
             price_determination_method TEXT,
             offering_amount FLOAT8,
             oversubscription_accepted TEXT,
@@ -28,7 +28,7 @@ def createTables():
             desc_oversubscription TEXT,
             maximum_offering_amount VARCHAR(255),
             deadline_date DATE,
-            current_employees FLOAT8,
+            current_employees int,
             total_assets_most_recent_fiscal_year FLOAT8,
             total_assets_prior_fiscal_year FLOAT8,
             cash_equity_most_recent_fiscal_year FLOAT8,
@@ -50,7 +50,7 @@ def createTables():
         );
         
         CREATE TABLE coissuer_info (
-            accession_number VARCHAR(255) PRIMARY KEY,
+            accession_number VARCHAR(255),
             id int,
             is_edgar_filer VARCHAR(255),
             co_issuer_cik VARCHAR(255),
@@ -68,8 +68,8 @@ def createTables():
         );
         
         CREATE TABLE issuer_info (
-            accession_number           VARCHAR(255) PRIMARY KEY,
-            is_amendment               INT,
+            accession_number           VARCHAR(255),
+            is_amendment               VARCHAR(20),
             progress_update            TEXT,
             nature_of_amendment        TEXT,
             name_of_issuer             VARCHAR(255),
@@ -91,12 +91,12 @@ def createTables():
         );
         
         CREATE TABLE submission (
-            accession_number  VARCHAR(255) PRIMARY KEY,
+            accession_number  VARCHAR(255),
             submission_type   VARCHAR(255),
             filing_date       DATE,
             cik               VARCHAR(255),
             file_number       VARCHAR(255),
-            period            VARCHAR(255)
+            period            DATE
         )
         """
         )
