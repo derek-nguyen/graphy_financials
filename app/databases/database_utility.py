@@ -1,6 +1,15 @@
 import psycopg2
 import psycopg2.extras as extras
 
+def get_db_connection():
+    return psycopg2.connect(
+    database="graphyfinancials",
+    host="localhost",
+    user="derek",
+    password="",
+    port="5432"
+)
+
 def insert_into_db(conn, df, table:str):
     tuples = [tuple(x) for x in df.to_numpy()]
     cols = ','.join(list(df.columns))

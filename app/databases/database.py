@@ -1,12 +1,15 @@
 import psycopg2 
+from database_utility import get_db_connection
 
-conn = psycopg2.connect(
-    database="graphyfinancials",
-    host="localhost",
-    user="derek",
-    password="",
-    port="5432"
-)
+conn = get_db_connection()
+
+# conn = psycopg2.connect(
+#     database="graphyfinancials",
+#     host="localhost",
+#     user="derek",
+#     password="",
+#     port="5432"
+# )
 
 cursor = conn.cursor()
 
