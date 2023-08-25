@@ -44,3 +44,4 @@ def get_all_company() -> list:
     finally:
         cursor.close()
 
+
