@@ -43,5 +43,3 @@ def get_all_company() -> list:
         raise e
     finally:
         cursor.close()
-
-

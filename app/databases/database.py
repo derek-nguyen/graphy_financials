@@ -16,7 +16,7 @@ cursor = conn.cursor()
 def createTables():
     cursor.execute(
         """
-        CREATE TABLE disclosures (
+        CREATE TABLE temp_disclosures (
             accession_number VARCHAR(255),
             compensation_amount_description TEXT,
             financial_interest TEXT,
@@ -52,7 +52,7 @@ def createTables():
             net_income_prior_fiscal_year FLOAT8
         );
         
-        CREATE TABLE coissuer_info (
+        CREATE TABLE temp_coissuer_info (
             accession_number VARCHAR(255),
             id int,
             is_edgar_filer VARCHAR(255),
@@ -70,7 +70,7 @@ def createTables():
             co_issuer_website VARCHAR(255)
         );
         
-        CREATE TABLE issuer_info (
+        CREATE TABLE temp_issuer_info (
             accession_number           VARCHAR(255),
             is_amendment               VARCHAR(20),
             progress_update            TEXT,
@@ -93,7 +93,7 @@ def createTables():
             is_co_issuer               VARCHAR(255)
         );
         
-        CREATE TABLE submission (
+        CREATE TABLE temp_submission (
             accession_number  VARCHAR(255),
             submission_type   VARCHAR(255),
             filing_date       DATE,
@@ -107,10 +107,10 @@ def createTables():
 def dropTables():
     cursor.execute(
         """
-        DROP TABLE IF EXISTS disclosures;
-        DROP TABLE IF EXISTS coissuer_info;
-        DROP TABLE IF EXISTS issuer_info;
-        DROP TABLE IF EXISTS submission;
+        DROP TABLE IF EXISTS temp_disclosures;
+        DROP TABLE IF EXISTS temp_coissuer_info;
+        DROP TABLE IF EXISTS temp_issuer_info;
+        DROP TABLE IF EXISTS temp_submission;
         """
         )
     
