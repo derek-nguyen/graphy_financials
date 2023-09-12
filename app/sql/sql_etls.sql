@@ -47,3 +47,59 @@ with company as (
 )
 select * 
 from company 
+
+
+-- CONSOLIDATED FINANCIAL INFORMATION
+
+
+
+
+with consolidated_disclosures as (
+	select d.accession_number
+	, s.filing_date
+	, date_trunc('year',s.filing_date)::date as filing_year
+	, s.cik
+	, d.compensation_amount_description
+	, d.financial_interest
+	, d.security_offered_type
+	, d.security_offered_other_desc
+	, case when d.no_of_security_offered = 'NaN' then null else d.no_of_security_offered end as no_of_security_offered
+	, case when d.price = 'NaN' then null else d.price end as price
+	, d.price_determination_method
+	, case when d.offering_amount = 'NaN' then null else d.offering_amount end as offering_amount
+	, d.oversubscription_accepted
+	, d.oversubscription_allocation_type
+	, d.desc_oversubscription
+	, d.maximum_offering_amount
+	, d.deadline_date
+	, d.current_employees
+	, d.total_assets_most_recent_fiscal_year
+	, d.total_assets_prior_fiscal_year
+	, d.cash_equity_most_recent_fiscal_year
+	, d.cash_equity_prior_fiscal_year
+	, d.act_received_recent_fiscal_year
+	, d.act_received_prior_fiscal_year
+	, d.short_term_debt_recent_fiscal_year
+	, d.short_term_debt_prior_fiscal_year
+	, d.long_term_debt_recent_fiscal_year
+	, d.long_term_debt_prior_fiscal_year
+	, d.revenue_most_recent_fiscal_year
+	, d.revenue_prior_fiscal_year
+	, d.cost_goods_sold_recent_fiscal_year
+	, d.cost_goods_sold_prior_fiscal_year
+	, d.tax_paid_most_recent_fiscal_year
+	, d.tax_paid_prior_fiscal_year
+	, d.net_income_most_recent_fiscal_year
+	, d.net_income_prior_fiscal_year
+	, s.accession_number
+	, s.submission_type
+	, s.file_number
+	, case when s.period = '1900-01-01' then null else s.period end as fiscal_period
+	, case when s."period" = '1900-01-01' then null else date_trunc('year',s."period")::date end as fiscal_year
+	from temp_disclosures d 
+	left join temp_submission s on s.accession_number = d.accession_number 
+	where 1=1
+	and d.total_assets_most_recent_fiscal_year <> 'NaN'
+)
+select * 
+from consolidated_disclosures
