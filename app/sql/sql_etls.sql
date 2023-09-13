@@ -48,6 +48,21 @@ with company as (
 select * 
 from company 
 
+select distinct 
+	  name_of_issuer
+	, street1 
+	, street2
+	, city 
+	, state_or_country 
+	, zipcode 
+	, issuer_website 
+	, ts.cik
+	, date_incorporation 
+from temp_issuer_info tii
+left join temp_submission ts on ts.accession_number = tii.accession_number 
+where 1=1
+and issuer_website is not null
+
 
 -- CONSOLIDATED FINANCIAL INFORMATION
 

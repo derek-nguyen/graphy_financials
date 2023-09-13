@@ -86,8 +86,8 @@ def createTables():
             state_or_country           VARCHAR(255),
             zipcode                    VARCHAR(20),
             issuer_website             VARCHAR(255),
-            company_name               VARCHAR(255),
-            commission_cik             VARCHAR(255),
+            intermediary_name          VARCHAR(255),
+            intermediary_cik           VARCHAR(255),
             commission_file_number     VARCHAR(255),
             crd_number                 NUMERIC,
             is_co_issuer               VARCHAR(255)
