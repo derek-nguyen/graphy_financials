@@ -48,27 +48,52 @@ with company as (
 select * 
 from company 
 
+-- REMOVED DUPLICATES
+with dedup_companies as (
+	select 
+	*
+	, row_number() over (partition by cik) as rn
+	from companies c 
+	where 1=1
+	order by rn asc
+)
 select distinct 
-	  name_of_issuer
-	, street1 
-	, street2
-	, city 
-	, state_or_country 
-	, zipcode 
-	, issuer_website 
-	, ts.cik
-	, date_incorporation 
-from temp_issuer_info tii
-left join temp_submission ts on ts.accession_number = tii.accession_number 
-where 1=1
-and issuer_website is not null
+	dc.name_of_issuer
+	, coalesce(dc.street1, c.street1) as street1 
+	, coalesce(dc.street2, c.street2) as street2 
+	, coalesce(dc.city, c.city) as city
+	, coalesce(dc.state_or_country, c.state_or_country) as state_or_country 
+	, coalesce(dc.zipcode, c.zipcode) as zipcode 
+	, coalesce(dc.issuer_website, c.issuer_website) as issuer_website 
+	, coalesce(dc.cik, c.cik) as cik
+	, coalesce(dc.date_incorporation, c.date_incorporation) as date_incorporation 
+from dedup_companies dc
+left join companies c on c.cik = dc.cik
+where 1=1 
+and rn=1
 
+-- CLEANED SUBMISSION TABLE
+drop table if exists submission
+create table submission 
+as
+select 
+	accession_number 
+	, submission_type 
+	, filing_date::date
+	, cik 
+	, file_number 
+	, case when "period" = '1900-01-01' then null else "period" end as "period" 
+from temp_submission ts
+
+
+-- CREATE PRODUCTION FINANCIAL DISCLOSURES
+drop table if exists financial_disclosures
+create table financial_disclosures
+as
+select *
+from temp_disclosures td 
 
 -- CONSOLIDATED FINANCIAL INFORMATION
-
-
-
-
 with consolidated_disclosures as (
 	select d.accession_number
 	, s.filing_date
