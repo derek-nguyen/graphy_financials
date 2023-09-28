@@ -1,18 +1,3 @@
-create table issuer_info as
-select 
-distinct name_of_issuer as company
-, case when legal_status_form = 'NaN' then null else legal_status_form end as legal_status_form  
-, case when date_incorporation = '1900-01-01' then null else date_incorporation end as date_incorporation  
-, case when street1 = 'NaN' then null else street1 end as street1  
-, case when street2 = 'NaN' then null else street2 end as street2  
-, case when city = 'NaN' then null else city end as city 
-, case when state_or_country = 'NaN' then null else state_or_country end as state_or_country  
-, case when zipcode = 'NaN' then null else zipcode end as zipcode  
-, case when issuer_website = 'NaN' then null else issuer_website  end as issuer_website  
-, commission_cik as cik 
-from sandbox_issuer_info sii;
-
-
 -- FLATTENS COMPANY INFO TABLE
 create table companies 
 as
@@ -93,7 +78,7 @@ as
 select *
 from temp_disclosures td 
 
--- CONSOLIDATED FINANCIAL INFORMATION
+-- CONSOLIDATED FINANCIAL DISCLOSURES
 with consolidated_disclosures as (
 	select d.accession_number
 	, s.filing_date
@@ -143,3 +128,38 @@ with consolidated_disclosures as (
 )
 select * 
 from consolidated_disclosures
+
+
+-- FINANCIAL INFORMATION WITH CIK
+with company_financials as (
+select 
+	s.cik
+	, s.filing_date 
+	, fd.revenue_most_recent_fiscal_year::numeric
+	, fd.revenue_prior_fiscal_year 
+	, fd.cost_goods_sold_recent_fiscal_year 
+	, fd.cost_goods_sold_prior_fiscal_year 
+	, fd.net_income_most_recent_fiscal_year 
+	, fd.net_income_prior_fiscal_year 
+	, fd.tax_paid_most_recent_fiscal_year 
+	, fd.tax_paid_prior_fiscal_year 
+	, fd.total_assets_most_recent_fiscal_year 
+	, fd.total_assets_prior_fiscal_year 
+	, fd.cash_equity_most_recent_fiscal_year 
+	, fd.cash_equity_prior_fiscal_year 
+	, fd.long_term_debt_recent_fiscal_year 
+	, fd.long_term_debt_prior_fiscal_year 
+	, fd.short_term_debt_recent_fiscal_year 
+	, fd.short_term_debt_prior_fiscal_year 
+	, row_number() over (partition by s.cik order by s.filing_date desc) as rn
+from financial_disclosures fd 
+left join submission s on s.accession_number = fd.accession_number
+where 1=1
+and s.cik is not null
+and fd.revenue_most_recent_fiscal_year is not null
+group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18
+)
+select *
+from company_financials 
+where 1=1
+and rn=1

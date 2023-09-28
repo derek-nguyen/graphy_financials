@@ -16,6 +16,18 @@ cursor = conn.cursor()
 def createTables():
     cursor.execute(
         """
+        create table companies (
+            company_title varchar(255),
+            street_1 varchar(255),
+            street_2 varchar(255),
+            city varchar(255),
+            state_or_country varchar(255),
+            zipcode varchar(255),
+            website varchar(255),
+            cik varchar(255),
+            date_incorporation date
+        );
+        
         CREATE TABLE temp_disclosures (
             accession_number VARCHAR(255),
             compensation_amount_description TEXT,
@@ -111,12 +123,17 @@ def dropTables():
         DROP TABLE IF EXISTS temp_coissuer_info;
         DROP TABLE IF EXISTS temp_issuer_info;
         DROP TABLE IF EXISTS temp_submission;
+        drop table if exists companies;
         """
         )
     
 def buildTables():
+    print('Dropping tables')
     dropTables()
+    print('Finished dropping tables')
+    print('Building tables')
     createTables()
+    print('Finished building tables')
 
 buildTables()
 conn.commit()
