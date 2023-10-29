@@ -1,5 +1,6 @@
 import psycopg2
 import psycopg2.extras as extras
+from google.cloud import bigquery
 
 def get_db_connection():
     return psycopg2.connect(
@@ -27,3 +28,6 @@ def insert_into_db(conn, df, table:str):
         cursor.close()
     print("the dataframe is inserted")
     cursor.close()
+    
+def get_bq_db_connection():
+    return 

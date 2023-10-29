@@ -1,4 +1,5 @@
 from database_utility import get_db_connection
+from google.cloud import bigquery
 
 conn = get_db_connection()
 
@@ -49,7 +50,7 @@ def dropTables():
         """
         )
     
-def buildTables():
+def buildLocalTables():
     print('Dropping tables')
     dropTables()
     print('Finished dropping tables')
@@ -57,5 +58,5 @@ def buildTables():
     createTables()
     print('Finished building tables')
 
-buildTables()
+buildLocalTables()
 conn.commit()
