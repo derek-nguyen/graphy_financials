@@ -1,6 +1,6 @@
 import psycopg2
 import psycopg2.extras as extras
-from google.cloud import bigquery
+from google.cloud import storage, bigquery
 
 def get_db_connection():
     return psycopg2.connect(
@@ -11,8 +11,11 @@ def get_db_connection():
     port="5432"
 )
 
-def get_bq_db_connection():
-    return 
+def query_google_bq(query: str): 
+    client = bigquery.Client()
+    query_job = client.query(query)
+    rows = query_job.result()
+    return rows
 
 def insert_into_db(conn, df, table:str):
     tuples = [tuple(x) for x in df.to_numpy()]
@@ -31,4 +34,6 @@ def insert_into_db(conn, df, table:str):
         cursor.close()
     print("the dataframe is inserted")
     cursor.close()
-    
+
+for row in query_google_bq('select * from main.financials'):
+    print(row)
