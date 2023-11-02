@@ -11,6 +11,9 @@ def get_db_connection():
     port="5432"
 )
 
+def get_bq_db_connection():
+    return 
+
 def insert_into_db(conn, df, table:str):
     tuples = [tuple(x) for x in df.to_numpy()]
     cols = ','.join(list(df.columns))
@@ -29,5 +32,3 @@ def insert_into_db(conn, df, table:str):
     print("the dataframe is inserted")
     cursor.close()
     
-def get_bq_db_connection():
-    return 
