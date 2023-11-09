@@ -5,7 +5,7 @@ from datetime import date
 
 client = bigquery.Client()
 
-def get_all_companies():
+async def get_all_companies():
     query = """
     select * 
     from graphy-financials.main.companies
@@ -20,5 +20,5 @@ def get_all_companies():
         company_dict = dict(company.items())
         companies_list.append(company_dict)
     
-    companies_json = json.dumps(company_dict, default=str)
+    companies_json = json.dumps(companies_list, default=str)
     return companies_json
