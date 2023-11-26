@@ -1,7 +1,10 @@
-import json
-from typing import Any
+import os
 from google.cloud import bigquery
-from datetime import date
+from dotenv import load_dotenv
+
+
+# USING GOOGLE SERVICE ACCOUNT IAM
+credentials_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") or None
 
 client = bigquery.Client()
 
@@ -62,6 +65,3 @@ async def get_company_financials(cik: str):
         financial_dict = dict(financial.items())
         financials_list.append(financial_dict)
     return financials_list
-
-# print(get_company_financials('1882217'))
-# print(get_company('1882217'))
