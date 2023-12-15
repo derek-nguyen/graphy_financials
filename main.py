@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter,HTTPException
-from app.databases.bigquery_adapters import get_all_companies, get_company, get_company_financials
+from backend.app.databases.bigquery_adapters import get_all_companies, get_company, get_company_financials
 
 app = FastAPI()
 company_router = APIRouter()
