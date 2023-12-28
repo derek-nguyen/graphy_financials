@@ -8,21 +8,24 @@ import os
 from bs4 import BeautifulSoup
 from zipfile import ZipFile
 
-
 def get_zip_href(url: str) -> list:
     response = requests.get(url)
-    soup = BeautifulSoup(response.content, "html.parser")
+    
+    if response.ok:
+        soup = BeautifulSoup(response.content, "html.parser")
+        zip_links = []
+        for link in soup.find_all("a"):
+            try:
+                if link.get("href").endswith(".zip") == True:
+                    zip_links.append(link.get("href"))
+            except AttributeError:
+                pass
+        return zip_links
+    else:
+        print(f'Failed to retrieve the webpage. Status code: {response.status_code}')
+        print(f'Reason: {response.reason}')
 
-    zip_links = []
-    for link in soup.find_all("a"):
-        try:
-            if link.get("href").endswith(".zip") == True:
-                zip_links.append(link.get("href"))
-        except AttributeError:
-            pass
-
-    return zip_links
-
+get_zip_href('https://www.sec.gov/dera/data/crowdfunding-offerings-data-sets')
 
 def zip_extract_download(zip_url: str, download_folder: str):
     zip_response = requests.get(zip_url)
@@ -39,4 +42,18 @@ def zip_extract_download(zip_url: str, download_folder: str):
 
     return
 
+def web_extract_cf_offering():
+    zip_list = get_zip_href('https://www.sec.gov/dera/data/crowdfunding-offerings-data-sets')
+    return
+    
 
+# for zip_link in zip_list:
+#     cf_sec_url = "https://www.sec.gov/"
+#     zip_url = cf_sec_url + zip_link
+
+#     data_folder_path = "/Users/derek/Documents/Github_Repos/graphy_financials/data"
+    
+#     try: 
+#         zip_extract_download(zip_url, data_folder_path)
+#     except:
+#         print('Error downloading file')
