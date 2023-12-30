@@ -25,8 +25,6 @@ def get_zip_href(url: str) -> list:
         print(f'Failed to retrieve the webpage. Status code: {response.status_code}')
         print(f'Reason: {response.reason}')
 
-get_zip_href('https://www.sec.gov/dera/data/crowdfunding-offerings-data-sets')
-
 def zip_extract_download(zip_url: str, download_folder: str):
     zip_response = requests.get(zip_url)
     zip_filename = zip_url.split("/")[-1]
@@ -39,8 +37,7 @@ def zip_extract_download(zip_url: str, download_folder: str):
         zip_ref.extractall(download_folder)
 
     os.remove(zip_path)
-
-    return
+    return None
 
 def web_extract_cf_offering():
     zip_list = get_zip_href('https://www.sec.gov/dera/data/crowdfunding-offerings-data-sets')
