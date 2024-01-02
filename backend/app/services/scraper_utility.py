@@ -41,10 +41,8 @@ def zip_extract_download(zip_url: str, download_folder: str):
 
 def web_extract_cf_offering():
     zip_list = get_zip_href('https://www.sec.gov/dera/data/crowdfunding-offerings-data-sets')
-    return
     
-
-# for zip_link in zip_list:
+    # for zip_link in zip_list:
 #     cf_sec_url = "https://www.sec.gov/"
 #     zip_url = cf_sec_url + zip_link
 
@@ -54,3 +52,8 @@ def web_extract_cf_offering():
 #         zip_extract_download(zip_url, data_folder_path)
 #     except:
 #         print('Error downloading file')
+
+    return
+    
+
+get_zip_href('https://www.sec.gov/dera/data/crowdfunding-offerings-data-sets')
