@@ -8,17 +8,11 @@ from bs4 import BeautifulSoup
 from zipfile import ZipFile
 
 # Proxies: https://proxy2.webshare.io/proxy/list?source=welcome-new
-# ADDRESS = "p.webshare.io7"
-# PORT = 80
-# USERNAME = "mkcqnfxa-rotate"
-# PASSWORD = "e1brw8xnmx86"
-
 proxy = {
     "http": "http://mkcqnfxa-rotate:e1brw8xnmx86@p.webshare.io:80/",
     "https": "http://mkcqnfxa-rotate:e1brw8xnmx86@p.webshare.io:80/"
 }
 
-print(proxy)
 def get_zip_href(url: str) -> list:
     response = requests.get(url, proxies=proxy)
     
