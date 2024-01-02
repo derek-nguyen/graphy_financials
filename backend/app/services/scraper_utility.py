@@ -3,13 +3,24 @@ USE THIS FILE TO STORE ALL WEB CRAWLER FUNCTIONS
 """
 
 import requests
-import pandas
 import os
 from bs4 import BeautifulSoup
 from zipfile import ZipFile
 
+# Proxies: https://proxy2.webshare.io/proxy/list?source=welcome-new
+# ADDRESS = "p.webshare.io7"
+# PORT = 80
+# USERNAME = "mkcqnfxa-rotate"
+# PASSWORD = "e1brw8xnmx86"
+
+proxy = {
+    "http": "http://mkcqnfxa-rotate:e1brw8xnmx86@p.webshare.io:80/",
+    "https": "http://mkcqnfxa-rotate:e1brw8xnmx86@p.webshare.io:80/"
+}
+
+print(proxy)
 def get_zip_href(url: str) -> list:
-    response = requests.get(url)
+    response = requests.get(url, proxies=proxy)
     
     if response.ok:
         soup = BeautifulSoup(response.content, "html.parser")
@@ -54,6 +65,3 @@ def web_extract_cf_offering():
 #         print('Error downloading file')
 
     return
-    
-
-get_zip_href('https://www.sec.gov/dera/data/crowdfunding-offerings-data-sets')
